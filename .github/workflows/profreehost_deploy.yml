@@ -21,10 +21,11 @@ jobs:
       - run: npm run build
       - run: npm run generate
       - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        uses: SamKirkland/FTP-Deploy-Action
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./dist/"
+          git-ftp-args: --insecure
           server-dir: "/htdocs/"
