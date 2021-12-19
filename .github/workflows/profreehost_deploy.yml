@@ -20,11 +20,8 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run generate
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
-          ftp-server: ${{ secrets.FTP_SERVER }}
-          ftp-username: ${{ secrets.FTP_USERNAME }}
-          ftp-password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: "./dist/"
-          git-ftp-args: --insecure --remote-root /htdocs/ --silent
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
