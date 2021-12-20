@@ -4,7 +4,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><nuxt-link to="/">Home</nuxt-link></li>
         <li class="breadcrumb-item"><nuxt-link to="/items">Items</nuxt-link></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ item.name.en }}</li>
+        <li class="breadcrumb-item active" aria-current="page">Detail</li>
       </ol>
     </nav>
     
@@ -31,6 +31,28 @@
             </li>
         </ul>
     </template>
+
+    <div class="row">
+      <template v-if="droppingMonsters.length">
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card shadow">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Dropped by monsters</h6>
+            </div>
+            <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
+              <table class="table table-striped">
+                <tbody>
+                  <tr v-for="currentMonster in droppingMonsters" :key="currentMonster.id">
+                    <td><img height="30px" :src="`https://gecko-images.flyffdb.info/image/monster/${currentMonster.icon}`"/></td>
+                    <td><nuxt-link :to="`/monsters/${currentMonster.flyffdb_meta_id}`">{{ currentMonster.name.en }}</nuxt-link></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -44,8 +66,21 @@ export default {
     } catch (e) {
       return error({ message: 'Item ' + params.slug + ' not found' })
     }
+
+    let droppingMonsters = [];
+    for (const currentMonsterId of item.flyffdb_dropped_by) {
+      let monster;
+      try {
+        monster = await $content('monsters', 'monster_' + currentMonsterId).fetch();
+        droppingMonsters.push(monster);
+      // OR const article = await $content(`articles/${params.slug}`).fetch()
+      } catch (e) {
+        return error({ message: 'Monster ' + currentMonsterId + ' not found' })
+      }
+    }
     return {
-      item
+      item,
+      droppingMonsters
     }
   },
   head () {

@@ -4,7 +4,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><nuxt-link to="/">Home</nuxt-link></li>
         <li class="breadcrumb-item"><nuxt-link to="/monsters">Monsters</nuxt-link></li>
-        <li class="breadcrumb-item active" aria-current="page">Detailed Monster Info</li>
+        <li class="breadcrumb-item active" aria-current="page">Detail</li>
       </ol>
     </nav>
     

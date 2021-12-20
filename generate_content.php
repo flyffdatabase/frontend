@@ -34,13 +34,62 @@ function batchDownloadFromApi ($dataTypeApiPrefix, $dataCallbackFunction) {
     }
 }
 
-$endpoints = ['/item', '/monster', '/world', '/class', '/equipset', '/skill', '/partyskill', '/npc', '/quest', '/karma', '/achievement'];
+$monsterByDroppingItem = [];
+
+$endpoints = [[
+    'url' => '/monster',
+    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem) {
+        foreach($currentItem['drops'] as $currentItemDrop) {
+            if (!isset($monsterByDroppingItem[$currentItemDrop['item']])) {
+                $monsterByDroppingItem[$currentItemDrop['item']] = [];
+            }
+
+            array_push($monsterByDroppingItem[$currentItemDrop['item']], $currentItem['id']);
+        }
+    },
+],[
+    'url' => '/item',
+    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem) {
+        $currentItem['flyffdb_dropped_by'] = [];
+
+        if (isset($monsterByDroppingItem[$currentItem['id']])) {
+            $currentItem['flyffdb_dropped_by'] = $monsterByDroppingItem[$currentItem['id']];
+        }
+    },
+],[
+    'url' => '/world',
+    'postProcessing' => null,
+],[
+    'url' => '/class',
+    'postProcessing' => null,
+],[
+    'url' => '/equipset',
+    'postProcessing' => null,
+],[
+    'url' => '/skill',
+    'postProcessing' => null,
+],[
+    'url' => '/partyskill',
+    'postProcessing' => null,
+],[
+    'url' => '/npc',
+    'postProcessing' => null,
+],[
+    'url' => '/quest',
+    'postProcessing' => null,
+],[
+    'url' => '/karma',
+    'postProcessing' => null,
+],[
+    'url' => '/achievement',
+    'postProcessing' => null,
+]];
 foreach($endpoints as $currentEndpoint) {
-    echo "Downloading ".$currentEndpoint.PHP_EOL;
-    batchDownloadFromApi($currentEndpoint, function ($currentItem) use ($currentEndpoint) {
+    echo "Downloading ".$currentEndpoint['url'].PHP_EOL;
+    batchDownloadFromApi($currentEndpoint['url'], function ($currentItem) use ($currentEndpoint) {
         if (!is_dir('./content')) mkdir('./content');
-        if (!is_dir('./content'. $currentEndpoint .'s')) mkdir('./content'. $currentEndpoint .'s');
-        $currentItem['flyffdb_meta_id'] = mb_substr($currentEndpoint . '_' . $currentItem['id'], 1);
+        if (!is_dir('./content'. $currentEndpoint['url'] .'s')) mkdir('./content'. $currentEndpoint['url'] .'s');
+        $currentItem['flyffdb_meta_id'] = mb_substr($currentEndpoint['url'] . '_' . $currentItem['id'], 1);
 
         //make sure we dont use these fields for input data because they cant be indexed as in api
         $fulltextSearchFields = ['title', 'description', 'slug', 'text'];
@@ -51,6 +100,10 @@ foreach($endpoints as $currentEndpoint) {
             }
         }
 
-        file_put_contents('./content'. $currentEndpoint .'s' . $currentEndpoint . '_' . $currentItem['id'] . '.json', json_encode($currentItem));
+        if (is_callable($currentEndpoint['postProcessing'])) {
+            $currentEndpoint['postProcessing']($currentItem);
+        }
+
+        file_put_contents('./content'. $currentEndpoint['url'] .'s' . $currentEndpoint['url'] . '_' . $currentItem['id'] . '.json', json_encode($currentItem));
     });
 }
