@@ -1,6 +1,13 @@
 <template>
   <div>
-    <nuxt-link to="/items">Items</nuxt-link>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><nuxt-link to="/">Home</nuxt-link></li>
+        <li class="breadcrumb-item"><nuxt-link to="/items">Items</nuxt-link></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ item.name.en }}</li>
+      </ol>
+    </nav>
+    
     <h2>{{ item.name.en }}</h2>
     <table>
       <thead>

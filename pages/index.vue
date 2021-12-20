@@ -1,6 +1,11 @@
 <template>
   <div>
-    <nuxt-link to="/">Home</nuxt-link>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+      </ol>
+    </nav>
+    
     <h2>flyffdb.info</h2>
     <p>Free online database for the soon to be released game Flyff - Project M.</p>
 
@@ -11,7 +16,7 @@
                   <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                           <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                              Itemdatabase</div>
+                              Item database</div>
                           <div class="h5 mb-0 font-weight-bold text-gray-800">{{ itemCount }} items</div>
                       </div>
                       <div class="col-auto">
@@ -22,80 +27,91 @@
           </div>
       </nuxt-link>
 
-                        <!-- Earnings (Annual) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      <nuxt-link to="/npcs" class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              NPC Database</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ npcCount }} npcs</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nuxt-link>
 
-                        <!-- Tasks Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      <nuxt-link to="/skills" class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              Skill Database</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ skillCount }} skills</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nuxt-link>
 
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <nuxt-link to="/quests" class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              Quest Database</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ questCount }} quests</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nuxt-link>
 
-    <input id="search" v-model="q" placeholder="Search..." />
+      <nuxt-link to="/monsters" class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              Monster Database</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ monsterCount }} monsters</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nuxt-link>
 
-    <ul>
-      <li>
-        <nuxt-link to="/items">Items</nuxt-link>
-      </li>
-      <li>
-        <nuxt-link to="/worlds">Worlds</nuxt-link>
-      </li>
-    </ul>
+      <nuxt-link to="/achievements" class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                              Achievement Database</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ achievementCount }} achievements</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -103,8 +119,18 @@
 export default {
   async asyncData ({ $content, route }) {
     let itemCount = (await $content('items').only([]).fetch()).length;
+    let npcCount = (await $content('npcs').only([]).fetch()).length;
+    let skillCount = (await $content('skills').only([]).fetch()).length;
+    let questCount = (await $content('quests').only([]).fetch()).length;
+    let monsterCount = (await $content('monsters').only([]).fetch()).length;
+    let achievementCount = (await $content('achievements').only([]).fetch()).length;
     return {
-      itemCount
+      itemCount,
+      npcCount,
+      skillCount,
+      questCount,
+      monsterCount,
+      achievementCount
     }
   }
 }

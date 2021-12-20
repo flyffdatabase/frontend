@@ -3,13 +3,13 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><nuxt-link to="/">Home</nuxt-link></li>
-        <li class="breadcrumb-item active" aria-current="page">Items</li>
+        <li class="breadcrumb-item active" aria-current="page">Monsters</li>
       </ol>
     </nav>
     
     <ul>
-      <li v-for="item in items" :key="item.id">
-        <nuxt-link :to="`/items/${item.flyffdb_meta_id}`">{{ item.name.en }}</nuxt-link>
+      <li v-for="currentMonster in monsters" :key="currentMonster.id">
+        <nuxt-link :to="`/monsters/${currentMonster.flyffdb_meta_id}`">{{ currentMonster.name.en }}</nuxt-link>
       </li>
     </ul>
   </div>
@@ -18,11 +18,11 @@
 <script>
 export default {
   async asyncData ({ $content, route }) {
-    let query = $content('items', { deep: true })
+    let query = $content('monsters', { deep: true })
       .sortBy('id', 'asc')
-    const items = await query.fetch()
+    const monsters = await query.fetch()
     return {
-      items
+      monsters
     }
   }
 }
