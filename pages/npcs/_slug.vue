@@ -11,7 +11,7 @@
     <h2>{{ npcInfo.name.en }}</h2>
 
     <template v-if="npcInfo.shop">
-      <h3>Available in Shop</h3>
+      <h3>Available in Shop at this NPC</h3>
     </template>
   </div>
 </template>
