@@ -1,5 +1,5 @@
 <?php
-
+chdir('./generate_content');
 require_once('./vendor/autoload.php');
 
 use ImageKit\ImageKit;
