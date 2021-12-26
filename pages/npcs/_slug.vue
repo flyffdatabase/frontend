@@ -31,7 +31,7 @@ export default {
   },
   head() {
     return {
-      title: this.item.name.en,
+      title: this.npcInfo.name.en,
     };
   },
 };

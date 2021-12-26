@@ -7,19 +7,27 @@
       </ol>
     </nav>
     
-    <div class="card shadow">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">All Items</h6>
-      </div>
-      <div class="card-body p-0">
-        <table class="table table-striped">
-          <tbody>
-            <tr v-for="item in items" :key="item.id">
-              <td><img :src="`https://gecko-images.flyffdb.info/image/item/${item.icon}`"/></td>
-              <td><nuxt-link :to="`/items/${item.flyffdb_meta_id}`">{{ item.name.en }}</nuxt-link></td>
-            </tr>
-          </tbody>
-        </table>
+    <div v-for="category in itemsByCategory" :key="category.name">
+      <h2>{{ category.name }}</h2>
+      <div class="row">
+        <div class="col-md-4" v-for="subcategory in category.subcategories" :key="subcategory.name">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">{{ subcategory.name }}&nbsp;</h3>
+            </div>
+            <div class="card-body p-0" style="min-height: 15em; max-height: 15em; overflow-y: auto">
+              <table class="table table-striped">
+                <tbody>
+                  <tr v-for="item in subcategory.items" :key="item.id">
+                    <td>
+                      <ItemDisplay :for="item"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -30,9 +38,35 @@ export default {
   async asyncData ({ $content, route }) {
     let query = $content('items', { deep: true })
       .sortBy('id', 'asc')
-    const items = await query.fetch()
+    const allItems = await query.fetch();
+    const itemsByCategory = {};
+
+    for (const currentItem of allItems) {
+      if (!itemsByCategory.hasOwnProperty(currentItem.category)) {
+        itemsByCategory[currentItem.category] = {
+          'name': currentItem.category,
+          'subcategories': {}
+        };
+      }
+      if (!itemsByCategory[currentItem.category].subcategories.hasOwnProperty(currentItem.subcategory)) {
+        itemsByCategory[currentItem.category].subcategories[currentItem.subcategory] = {
+          'name': currentItem.subcategory,
+          'items': []
+        };
+      }
+
+      itemsByCategory[currentItem.category].subcategories[currentItem.subcategory].items.push(currentItem);
+    }
+
+    for (const categoryName of Object.keys(itemsByCategory)) {
+      for (const subcategoryName of Object.keys(itemsByCategory[categoryName].subcategories)) {
+        if (categoryName == 'armor' || categoryName == 'weapon') [
+          itemsByCategory[categoryName].subcategories[subcategoryName].items.sort((a, b) => (a.level > b.level) ? -1 : 1)
+        ]
+      }
+    }
     return {
-      items
+      itemsByCategory
     }
   }
 }
