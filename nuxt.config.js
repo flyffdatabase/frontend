@@ -39,9 +39,14 @@ export default {
   buildModules: [
   ],
 
+  serverMiddleware: [
+    { path: "/api/", handler: "~/server-middleware/api.js" },
+  ],
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxt/content'
+    '@nuxt/content',
+    '@nuxt/http'
   ],
 
   content: {
