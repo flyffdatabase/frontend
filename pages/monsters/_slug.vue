@@ -138,37 +138,11 @@
 
 <script>
 export default {
-  async asyncData ({ $content, params, error }) {
-    let monster
-    try {
-      monster = await $content('monsters', params.slug).fetch()
-      // OR const article = await $content(`articles/${params.slug}`).fetch()
-    } catch (e) {
-      return error({ message: 'Monster ' + params.slug + ' not found' })
-    }
-
-    //"common" "uncommon" "rare" "veryrare" "unique"
-    let dropItems = {
-      common: [],
-      uncommon: [],
-      rare: [],
-      veryrare: [],
-      unique: []
-    };
-    for (const currentDrop of monster.drops) {
-      let droppedItem;
-      try {
-        droppedItem = await $content('items', 'item_' + currentDrop.item).fetch();
-        dropItems[droppedItem.rarity].push(droppedItem);
-      // OR const article = await $content(`articles/${params.slug}`).fetch()
-      } catch (e) {
-        return error({ message: 'Dropped Item ' + currentDrop.item + ' not found' })
-      }
-    }
-
+  async asyncData ({ $http, params, error }) {
+    let data = await $http.$get(`/api/monsters/${params.slug}`);
     return {
-      monster,
-      dropItems
+      monster: data.monster,
+      dropItems: data.dropItems
     }
   },
   head () {

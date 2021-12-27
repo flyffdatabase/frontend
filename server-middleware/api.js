@@ -3,6 +3,37 @@ const app = require('express')()
 const { $content } = require('@nuxt/content')
 
 app.use(bodyParser.json())
+app.get('/monsters/:monsterId', async (req, res) => {
+  let monsterId = req.params.monsterId;
+  let monster
+  try {
+    monster = await $content('monsters', monsterId).fetch()
+    // OR const article = await $content(`articles/${params.slug}`).fetch()
+  } catch (e) {
+    return error({ message: 'Monster ' + monsterId + ' not found' })
+  }
+
+  //"common" "uncommon" "rare" "veryrare" "unique"
+  let dropItems = {
+    common: [],
+    uncommon: [],
+    rare: [],
+    veryrare: [],
+    unique: []
+  };
+  for (const currentDrop of monster.drops) {
+    let droppedItem;
+    try {
+      droppedItem = await $content('items', 'item_' + currentDrop.item).fetch();
+      dropItems[droppedItem.rarity].push(droppedItem);
+    // OR const article = await $content(`articles/${params.slug}`).fetch()
+    } catch (e) {
+      return error({ message: 'Dropped Item ' + currentDrop.item + ' not found' })
+    }
+  }
+
+  res.json({ monster: monster, dropItems: dropItems });
+});
 app.all('/itemsByCategory', async (req, res) => {
   let query = $content('items', { deep: true })
     .sortBy('id', 'asc')
