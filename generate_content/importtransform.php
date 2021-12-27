@@ -93,7 +93,7 @@ function batchDownloadFromApi ($dataTypeApiPrefix, $dataCallbackFunction) {
                     }
                 }
             }
-            echo count($batchItemIds) . " of " . count($itemIds) . " objects processed.".PHP_EOL;
+            echo ($i+1) . " of " . count($itemIds) . " objects processed.".PHP_EOL;
             $batchItemIds = [];
         }
     }
