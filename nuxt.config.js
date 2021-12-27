@@ -27,7 +27,7 @@ export default {
   env: {
     baseUrl: 'https://flyffdb.info'
   },
-  
+
   target: 'server',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -52,6 +52,11 @@ export default {
     '@nuxt/content',
     '@nuxt/http'
   ],
+
+  http: {
+    // HTTP options here
+    baseUrl: 'https://flyffdb.info'
+  },
 
   content: {
     // Only search in title and description
