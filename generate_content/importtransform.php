@@ -34,16 +34,17 @@ function downloadAndCDNImage($remoteImage, $folderName, $fileName, $imageKit) {
         return false;
     }
     //upload image to cdn and generate imageurl
-    $uploadResult = $imageKit->upload(array(
+    /*$uploadResult = $imageKit->upload(array(
         'file' => base64_encode($remoteImageRaw),
         'fileName' => $fileName,
         'folder' => $folderName
-    ));
+    ));*/
 
-    if ($uploadResult->success) {
-        return $uploadResult->success->url;
-    }
-    return false;
+    if (!is_dir('./../icon')) mkdir('./../icon');
+    if (!is_dir('./..' . $folderName)) mkdir('./..' . $folderName);
+    file_put_contents('.' . $folderName . '/' . $fileName, $remoteImageRaw);
+
+    return 'https://ik.imagekit.io/flyffdb' . $folderName . '/' . $fileName;
 }
 
 function downloadFromApi($endpointUrl) {
