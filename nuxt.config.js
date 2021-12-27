@@ -24,6 +24,10 @@ export default {
   css: [
   ],
 
+  env: {
+    baseUrl: 'https://flyffdb.info'
+  },
+  
   target: 'server',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
