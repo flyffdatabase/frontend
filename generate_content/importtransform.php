@@ -21,8 +21,8 @@ function downloadAndCDNImage($remoteImage, $folderName, $fileName, $imageKit) {
     $remoteImageRaw = '';
     while (!$remoteImageRaw) {
         if ($retryCount < 10) {
+            usleep(50);
             $remoteImageRaw = @file_get_contents($remoteImage);
-            usleep(100);
             if ($remoteImageRaw) {
                 $downloadSuccess = true;
             }
@@ -59,9 +59,9 @@ function downloadFromApi($endpointUrl) {
         $content = '';
         while (!$content) {
             if ($retryCount < 15) {
+                usleep(50);
                 $content = @file_get_contents($baseApiUrl . $endpointUrl);
-                usleep(100);
-                if ($remoteImageRaw) {
+                if ($content) {
                     $downloadSuccess = true;
                 }
                 $retryCount++;
