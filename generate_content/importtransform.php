@@ -84,7 +84,7 @@ function batchDownloadFromApi ($dataTypeApiPrefix, $dataCallbackFunction) {
     for($i = 0; $i < count($itemIds); $i++) {
         array_push($batchItemIds, $itemIds[$i]);
     
-        if ((count($batchItemIds) == 100) || ($i == (count($itemIds) - 1))) {
+        if ((count($batchItemIds) == 25) || ($i == (count($itemIds) - 1))) {
             $returnedData = downloadFromApi($dataTypeApiPrefix . '/' . implode(',', $batchItemIds));
             if (count($returnedData) > 0) {
                 if (is_callable($dataCallbackFunction)) {
