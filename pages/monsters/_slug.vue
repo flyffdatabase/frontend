@@ -139,11 +139,7 @@
 <script>
 export default {
   async asyncData ({ $http, params, error }) {
-    let data = await $http.$get(`/api/monsters/${params.slug}`);
-    return {
-      monster: data.monster,
-      dropItems: data.dropItems
-    }
+    return await $http.$get(`/api/monsters/${params.slug}`);
   },
   head () {
     return {

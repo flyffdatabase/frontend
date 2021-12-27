@@ -108,31 +108,8 @@
 
 <script>
 export default {
-  async asyncData ({ $content, params, error }) {
-    let item
-    try {
-      item = await $content('items', params.slug).fetch()
-      // OR const article = await $content(`articles/${params.slug}`).fetch()
-    } catch (e) {
-      return error({ message: 'Item ' + params.slug + ' not found' })
-    }
-
-    let droppingMonsters = [];
-    for (const currentMonsterId of item.flyffdb_dropped_by) {
-      let monster;
-      try {
-        monster = await $content('monsters', 'monster_' + currentMonsterId).fetch();
-        droppingMonsters.push(monster);
-      // OR const article = await $content(`articles/${params.slug}`).fetch()
-      } catch (e) {
-        return error({ message: 'Monster ' + currentMonsterId + ' not found' })
-      }
-    }
-    droppingMonsters.sort((a, b) => (a.level > b.level) ? 1 : -1)
-    return {
-      item,
-      droppingMonsters
-    }
+  async asyncData ({ $http, params, error }) {
+    return await $http.$get(`/api/items/${params.slug}`);
   },
   head () {
     return {

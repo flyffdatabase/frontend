@@ -8,12 +8,10 @@ app.get('/monsters/:monsterId', async (req, res) => {
   let monster
   try {
     monster = await $content('monsters', monsterId).fetch()
-    // OR const article = await $content(`articles/${params.slug}`).fetch()
   } catch (e) {
     return error({ message: 'Monster ' + monsterId + ' not found' })
   }
 
-  //"common" "uncommon" "rare" "veryrare" "unique"
   let dropItems = {
     common: [],
     uncommon: [],
@@ -26,7 +24,6 @@ app.get('/monsters/:monsterId', async (req, res) => {
     try {
       droppedItem = await $content('items', 'item_' + currentDrop.item).fetch();
       dropItems[droppedItem.rarity].push(droppedItem);
-    // OR const article = await $content(`articles/${params.slug}`).fetch()
     } catch (e) {
       return error({ message: 'Dropped Item ' + currentDrop.item + ' not found' })
     }
@@ -34,6 +31,36 @@ app.get('/monsters/:monsterId', async (req, res) => {
 
   res.json({ monster: monster, dropItems: dropItems });
 });
+
+app.get('/items/:itemId', async (req, res) => {
+  let itemId = req.params.itemId;
+  
+  let item;
+  try {
+    item = await $content('items', itemId).fetch()
+  } catch (e) {
+    return error({ message: 'Item ' + itemId + ' not found' })
+  }
+
+  let droppingMonsters = [];
+  for (const currentMonsterId of item.flyffdb_dropped_by) {
+    let monster;
+    try {
+      monster = await $content('monsters', 'monster_' + currentMonsterId).fetch();
+      droppingMonsters.push(monster);
+    } catch (e) {
+      return error({ message: 'Monster ' + currentMonsterId + ' not found' })
+    }
+  }
+
+  droppingMonsters.sort((a, b) => (a.level > b.level) ? 1 : -1);
+  
+  res.json({
+    item,
+    droppingMonsters
+  });
+});
+
 app.all('/itemsByCategory', async (req, res) => {
   let query = $content('items', { deep: true })
     .sortBy('id', 'asc')

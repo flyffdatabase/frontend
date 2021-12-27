@@ -52,12 +52,7 @@ export default {
     '@nuxt/content',
     '@nuxt/http'
   ],
-
-  http: {
-    // HTTP options here
-    baseUrl: 'https://flyffdb.info'
-  },
-
+  
   content: {
     // Only search in title and description
     fullTextSearchFields: ['flyffdb_meta_id']
