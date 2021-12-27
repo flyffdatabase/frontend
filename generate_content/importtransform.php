@@ -21,8 +21,8 @@ function downloadAndCDNImage($remoteImage, $folderName, $fileName, $imageKit) {
     $remoteImageRaw = '';
     while (!$remoteImageRaw) {
         if ($retryCount < 5) {
-            usleep(200);
             $remoteImageRaw = @file_get_contents($remoteImage);
+            usleep(200);
             if ($remoteImageRaw) {
                 $downloadSuccess = true;
             }
@@ -54,7 +54,24 @@ function downloadFromApi($endpointUrl) {
         $content = file_get_contents('./../apicache/' . md5($endpointUrl));
     } else {
         $baseApiUrl = 'https://flyff-api.sniegu.fr';
-        $content = file_get_contents($baseApiUrl . $endpointUrl);
+        $retryCount = 0;
+        $downloadSuccess = false;
+        $content = '';
+        while (!$content) {
+            if ($retryCount < 5) {
+                $content = @file_get_contents($baseApiUrl . $endpointUrl);
+                usleep(200);
+                if ($remoteImageRaw) {
+                    $downloadSuccess = true;
+                }
+                $retryCount++;
+            }
+        }
+    
+        if (!$downloadSuccess) {
+            return false;
+        }
+        
         file_put_contents('./../apicache/' .  md5($endpointUrl), $content);
     }
     return json_decode($content, true);
