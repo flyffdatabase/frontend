@@ -104,7 +104,6 @@ $endpoints = [[
     'url' => '/item',
     'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages, $imageKit) {
         $currentItem['flyffdb_dropped_by'] = [];
-        die;
 
         if ($fetchImages) {
             //file_put_contents('./images/item/' . $currentItem['icon'], file_get_contents('https://flyff-api.sniegu.fr/image/item/' . $currentItem['icon']));
@@ -143,6 +142,7 @@ $endpoints = [[
     'url' => '/achievement',
     'postProcessing' => null,
 ]];
+$timeStart = microtime(true);
 foreach($endpoints as $currentEndpoint) {
     echo "Downloading ".$currentEndpoint['url'].PHP_EOL;
     batchDownloadFromApi($currentEndpoint['url'], function ($currentItem) use ($currentEndpoint) {
@@ -166,3 +166,4 @@ foreach($endpoints as $currentEndpoint) {
         file_put_contents('./../content'. $currentEndpoint['url'] .'s' . $currentEndpoint['url'] . '_' . $currentItem['id'] . '.json', json_encode($currentItem));
     });
 }
+echo "Took: " . (microtime(true) - $timeStart)/60 . 'minutes';
