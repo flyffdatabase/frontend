@@ -94,3 +94,4 @@ sw.*
 /apicache
 /generate_content/vendor
 /generate_content/composer.lock
+/static/icon
