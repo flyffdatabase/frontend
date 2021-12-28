@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser')
 const app = require('express')()
 const { $content } = require('@nuxt/content')
+const { $http } = require('@nuxt/http')
 
 app.use(bodyParser.json())
 app.get('/monsters/:monsterId', async (req, res) => {
@@ -30,6 +31,13 @@ app.get('/monsters/:monsterId', async (req, res) => {
   }
 
   res.json({ monster: monster, dropItems: dropItems });
+});
+
+app.get('/gameVersion', async (req, res) => {
+  let gameDataVersion = await $content('gameVersion').fetch();
+  res.json({
+    gameDataVersion: gameDataVersion.gameDataVersion
+  });
 });
 
 app.get('/items/:itemId', async (req, res) => {

@@ -1,11 +1,5 @@
 <template>
   <div>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Home</li>
-      </ol>
-    </nav>
-    
     <h2>flyffdb.info</h2>
     <p>Free online database for the soon to be released game Flyff - Project M.</p>
 

@@ -34,6 +34,7 @@ export default {
   plugins: [
     { src: '~/plugins/penya_format.js' },
     { src: '~/plugins/thousands_format.js' },
+    { src: '~/plugins/ability_format.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

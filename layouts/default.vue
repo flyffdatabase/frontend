@@ -77,10 +77,10 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
+    <strong>Website: Copyright &copy; 2021 <a href="https://flyffdb.info">flyffdb.info</a>. All Rights Reserved.</strong> |
+    <strong>Images and Data: Copyright &copy; 2021 Gala Lab Corp. All Rights Reserved.</strong>
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.1.0
+      <b>Game Data Version</b> {{ gameDataVersion }}
     </div>
   </footer>
 </div>
@@ -98,3 +98,16 @@
 
 </body>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      gameDataVersion: "1.2.0"
+    }
+  },
+  async asyncData ({ $http, params, error }) {
+    return await $http.$get(`/api/gameVersion`);
+  }
+}
+</script>
