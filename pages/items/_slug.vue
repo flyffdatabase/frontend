@@ -40,7 +40,7 @@
                       <td>Abilities</td>
                       <td>
                         <ul class="mb-0 pl-4">
-                          <li v-for="itemability in item.abilities">
+                          <li v-for="itemability in item.abilities" :key="itemability.parameter">
                             {{ itemability.parameter | ability }}
 
                             <template v-if="itemability.add">
