@@ -76,6 +76,11 @@ app.all('/itemsByCategory', async (req, res) => {
   const itemsByCategory = {};
 
   for (const currentItem of allItems) {
+    if (!currentItem.subcategory || currentItem.subcategory == 'blinkwing' || currentItem.category == 'scroll') {
+      currentItem.subcategory = currentItem.category;
+      currentItem.category = 'other';
+    }
+
     if (!itemsByCategory.hasOwnProperty(currentItem.category)) {
       itemsByCategory[currentItem.category] = {
         'name': currentItem.category,

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-3">
     <h2>flyffdb.info</h2>
     <p>Free online database for the soon to be released game Flyff - Project M.</p>
 

@@ -32,6 +32,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/capitalize_format.js' },
     { src: '~/plugins/penya_format.js' },
     { src: '~/plugins/thousands_format.js' },
     { src: '~/plugins/ability_format.js' },

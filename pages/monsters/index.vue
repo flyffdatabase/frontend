@@ -17,7 +17,7 @@
             <div class="card border-left-primary shadow">
                 <div class="card-body">
                   <div class="user-block">
-                    <img  :src="`${currentMonster.icon}`" alt="Monster Icon" style="image-rendering: pixelated;">
+                    <img :src="`${currentMonster.icon}?tr=w-32,h-32,cm-pad_resize`" alt="Monster Icon" style="image-rendering: pixelated;">
                     <span class="username text-muted">{{ currentMonster.name.en }}</span>
                     <span class="description">Level: {{ currentMonster.level }}</span>
                   </div>
@@ -35,7 +35,7 @@
               <div class="card border-left-primary shadow">
                   <div class="card-body">
                     <div class="user-block">
-                      <img  :src="`${currentMonster.icon}`" alt="Monster Icon" style="image-rendering: pixelated;">
+                      <img :src="`${currentMonster.icon}?tr=w-32,h-32,cm-pad_resize`" alt="Monster Icon" style="image-rendering: pixelated;">
                       <span class="username text-muted">{{ currentMonster.name.en }}</span>
                       <span class="description">Level: {{ currentMonster.level }}</span>
                     </div>

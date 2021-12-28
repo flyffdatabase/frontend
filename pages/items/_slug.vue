@@ -1,7 +1,22 @@
 <template>
   <div class="pt-3">
     <div class="row">
-      <div class="col-xl-3 col-md-6 mb-4">
+      <div class="col-sm-6">
+        <h1 class="m-0">{{ item.name.en }}
+          <template v-if="item.sex == 'male'"><i class="fas fa-mars"></i></template>
+          <template v-if="item.sex == 'female'"><i class="fas fa-venus"></i></template>
+        </h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><nuxt-link to="/">Home</nuxt-link></li>
+          <li class="breadcrumb-item"><nuxt-link to="/items">Items</nuxt-link></li>
+          <li class="breadcrumb-item active">Detail</li>
+        </ol>
+      </div><!-- /.col -->
+    </div>
+    <div class="row">
+      <div class="col-xl-3 col-md-4 mb-1">
         <div class="card shadow">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="card-title">Item Details</h6>
@@ -24,7 +39,7 @@
                     <tr>
                       <td>Abilities</td>
                       <td>
-                        <ul>
+                        <ul class="mb-0 pl-4">
                           <li v-for="itemability in item.abilities">
                             {{ itemability.parameter | ability }}
 
@@ -41,7 +56,7 @@
               </table>
 
               <template v-if="!item.tradable">
-                <div class="card bg-danger text-white shadow">
+                <div class="card bg-danger text-white shadow mb-1">
                   <div class="card-body">
                     This item can <b>NOT</b> be traded!
                   </div>
@@ -51,20 +66,8 @@
             </div>
         </div>
       </div>
-      <div class="col-xl-9 col-md-6 mb-8">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">{{ item.name.en }}</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><nuxt-link to="/">Home</nuxt-link></li>
-              <li class="breadcrumb-item"><nuxt-link to="/items">Items</nuxt-link></li>
-              <li class="breadcrumb-item active">Detail</li>
-            </ol>
-          </div><!-- /.col -->
-        </div>
-
+      <div class="col-xl-9 col-md-8 mb-8">
+        <h2>Description</h2>
         <template v-if="!item.raw_description.en || item.raw_description.en == 'null'">
           <div class="card bg-info text-white shadow mb-4">
             <div class="card-body">
@@ -75,12 +78,12 @@
         <template v-if="item.raw_description.en && item.raw_description.en != 'null'">
           <div class="card bg-info text-white shadow mb-4">
             <div class="card-body">
-              <b>Description:</b> {{ item.raw_description.en }}
+              {{ item.raw_description.en }}
             </div>
           </div>
         </template>
-
-        <h3>Obtainable Ingame</h3>
+        
+        <h2>Obtainable Ingame</h2>
         <div class="row">
           <template v-if="droppingMonsters.length">
             <div class="col-xl-6 col-md-6">

@@ -40,9 +40,9 @@ function downloadAndCDNImage($remoteImage, $folderName, $fileName, $imageKit) {
         'folder' => $folderName
     ));*/
 
-    if (!is_dir('./../icon')) mkdir('./../icon');
-    if (!is_dir('./..' . $folderName)) mkdir('./..' . $folderName);
-    file_put_contents('./..' . $folderName . '/' . $fileName, $remoteImageRaw);
+    if (!is_dir('./../static/icon')) mkdir('./../icon');
+    if (!is_dir('./../static' . $folderName)) mkdir('./../static' . $folderName);
+    file_put_contents('./../static' . $folderName . '/' . $fileName, $remoteImageRaw);
 
     return 'https://ik.imagekit.io/flyffdb' . $folderName . '/' . $fileName;
 }
