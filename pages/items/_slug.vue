@@ -97,7 +97,7 @@
                       <tr v-for="currentMonster in droppingMonsters" :key="currentMonster.id">
                         <td>
                           <nuxt-link :to="`/monsters/${currentMonster.flyffdb_meta_id}`" class="user-block">
-                            <img style="image-rendering: pixelated" :src="`${currentMonster.icon}`" alt="Monster Icon">
+                            <img style="image-rendering: pixelated" :src="`${currentMonster.icon}?tr=w-100,h-100,cm-pad_resize`" alt="Monster Icon">
                             <span class="username text-muted">{{ currentMonster.name.en }}</span>
                             <span class="description">Level: {{ currentMonster.level }}</span>
                           </nuxt-link>

@@ -2,48 +2,35 @@
 chdir('./generate_content');
 require_once('./vendor/autoload.php');
 
-use ImageKit\ImageKit;
-
 $fetchImages = true;
+$downloadImages = false;
 
-if ($fetchImages) {
-    $imageKit = new ImageKit(
-        "public_O7oYGTSitVW5KUCxnVos/3Wa1uc=",
-        "private_WGX2iOlcR+KyzaWGcEGA4tClU/0=",
-        "https://ik.imagekit.io/flyffdb/"
-    );
-}
-
-function downloadAndCDNImage($remoteImage, $folderName, $fileName, $imageKit) {
+function downloadAndCDNImage($remoteImage, $folderName, $fileName) {
     //fetch image from remote url (parameter)
-    $retryCount = 0;
-    $downloadSuccess = false;
-    $remoteImageRaw = '';
-    while (!$remoteImageRaw) {
-        if ($retryCount < 10) {
-            usleep(250);
-            $remoteImageRaw = @file_get_contents($remoteImage);
-            if ($remoteImageRaw) {
-                $downloadSuccess = true;
+    if (false) {
+        $retryCount = 0;
+        $downloadSuccess = false;
+        $remoteImageRaw = '';
+        while (!$remoteImageRaw) {
+            if ($retryCount < 10) {
+                usleep(250);
+                $remoteImageRaw = @file_get_contents($remoteImage);
+                if ($remoteImageRaw) {
+                    $downloadSuccess = true;
+                }
+                $retryCount++;
             }
-            $retryCount++;
         }
+
+        if (!$downloadSuccess) {
+            return false;
+        }
+
+        if (!is_dir('./../static/icon')) mkdir('./../icon');
+        if (!is_dir('./../static' . $folderName)) mkdir('./../static' . $folderName);
+        file_put_contents('./../static' . $folderName . '/' . $fileName, $remoteImageRaw);
+
     }
-
-    if (!$downloadSuccess) {
-        return false;
-    }
-    //upload image to cdn and generate imageurl
-    /*$uploadResult = $imageKit->upload(array(
-        'file' => base64_encode($remoteImageRaw),
-        'fileName' => $fileName,
-        'folder' => $folderName
-    ));*/
-
-    if (!is_dir('./../static/icon')) mkdir('./../icon');
-    if (!is_dir('./../static' . $folderName)) mkdir('./../static' . $folderName);
-    file_put_contents('./../static' . $folderName . '/' . $fileName, $remoteImageRaw);
-
     return 'https://ik.imagekit.io/flyffdb' . $folderName . '/' . $fileName;
 }
 
@@ -103,10 +90,10 @@ $monsterByDroppingItem = [];
 
 $endpoints = [[
     'url' => '/monster',
-    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages, $imageKit) {
+    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages) {
         if ($fetchImages) {
             //file_put_contents('./images/item/' . $currentItem['icon'], file_get_contents('https://flyff-api.sniegu.fr/image/item/' . $currentItem['icon']));
-            $currentItem['icon'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/monster/' . $currentItem['icon'], '/icon/monster', $currentItem['icon'], $imageKit);
+            $currentItem['icon'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/monster/' . $currentItem['icon'], '/icon/monster', $currentItem['icon']);
         }    
 
         foreach($currentItem['drops'] as $currentItemDrop) {
@@ -119,12 +106,12 @@ $endpoints = [[
     },
 ],[
     'url' => '/item',
-    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages, $imageKit) {
+    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages) {
         $currentItem['flyffdb_dropped_by'] = [];
 
         if ($fetchImages) {
             //file_put_contents('./images/item/' . $currentItem['icon'], file_get_contents('https://flyff-api.sniegu.fr/image/item/' . $currentItem['icon']));
-            $currentItem['icon'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/item/' . $currentItem['icon'], '/icon/item', $currentItem['icon'], $imageKit);
+            $currentItem['icon'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/item/' . $currentItem['icon'], '/icon/item', $currentItem['icon']);
         }
 
         if (isset($monsterByDroppingItem[$currentItem['id']])) {
