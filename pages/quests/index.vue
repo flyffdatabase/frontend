@@ -19,7 +19,7 @@
 export default {
   async asyncData ({ $content, route }) {
     let query = $content('quests', { deep: true })
-      .sortBy('id', 'asc')
+      .sortBy('minLevel', 'asc')
     const quests = await query.fetch()
     return {
       quests

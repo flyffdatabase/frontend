@@ -83,34 +83,50 @@
           </div>
         </template>
         
-        <h2>Obtainable Ingame</h2>
-        <div class="row">
-          <template v-if="droppingMonsters.length">
-            <div class="col-xl-6 col-md-6">
-              <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title">Drop from Monsters</h6>
-                </div>
-                <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr v-for="currentMonster in droppingMonsters" :key="currentMonster.id">
-                        <td>
-                          <nuxt-link :to="`/monsters/${currentMonster.flyffdb_meta_id}`" class="user-block">
-                            <img :src="`${currentMonster.icon}?tr=w-100,h-100,cm-pad_resize`" alt="Monster Icon">
-                            <span class="username text-muted">{{ currentMonster.name.en }}</span>
-                            <span class="description">Level: {{ currentMonster.level }}</span>
-                          </nuxt-link>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+        <template v-if="quests.length">
+          <h2>Referenced in Quests</h2>
+          <div v-for="currentQuest in quests" :key="currentQuest.id">
+            <nuxt-link :to="`/quests/${currentQuest.flyffdb_meta_id}`">
+              <div class="callout callout-success">
+                <h5 class="text-info">
+                  {{ currentQuest.name.en }}
+                  <sub class="text-warning">Level {{ currentQuest.minLevel }} - {{ currentQuest.maxLevel }}</sub>
+                </h5>
+                <p class="text-muted">{{ currentQuest.raw_description.en }}</p>
+              </div>
+            </nuxt-link>
+          </div>
+        </template>
+        
+        <template v-if="droppingMonsters.length">
+          <h2>Obtainable Ingame</h2>
+          <div class="row">
+            <template v-if="droppingMonsters.length">
+              <div class="col-xl-6 col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">Drop from Monsters</h6>
+                  </div>
+                  <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr v-for="currentMonster in droppingMonsters" :key="currentMonster.id">
+                          <td>
+                            <nuxt-link :to="`/monsters/${currentMonster.flyffdb_meta_id}`" class="user-block">
+                              <img :src="`${currentMonster.icon}?tr=w-100,h-100,cm-pad_resize`" alt="Monster Icon">
+                              <span class="username text-muted">{{ currentMonster.name.en }}</span>
+                              <span class="description">Level: {{ currentMonster.level }}</span>
+                            </nuxt-link>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </div>
-        <h3>Something else</h3>
+            </template>
+          </div>
+        </template>
 
       </div>
     </div>
@@ -120,7 +136,9 @@
 <script>
 export default {
   async asyncData ({ $http, params, error }) {
-    return await $http.$get(`/api/items/${params.slug}`);
+    const data = await $http.$get(`/api/items/${params.slug}`);
+    console.log(data);
+    return data;
   },
   head () {
     return {

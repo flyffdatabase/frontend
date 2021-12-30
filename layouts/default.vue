@@ -63,6 +63,15 @@
     <section class="content">
         <div class="container-fluid">
         <Nuxt/>
+
+        <!-- Main Footer -->
+  <footer >
+    <strong>Website: Copyright &copy; 2021 <a href="https://flyffdb.info">flyffdb.info</a>. All Rights Reserved.</strong> |
+    <strong>Images and Data: Copyright &copy; 2021 Gala Lab Corp. All Rights Reserved.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Game Data Version</b> {{ gameDataVersion }}
+    </div>
+  </footer>
         </div>
     </section>
     <!-- /.content -->
@@ -75,14 +84,7 @@
   </aside>
   <!-- /.control-sidebar -->
 
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <strong>Website: Copyright &copy; 2021 <a href="https://flyffdb.info">flyffdb.info</a>. All Rights Reserved.</strong> |
-    <strong>Images and Data: Copyright &copy; 2021 Gala Lab Corp. All Rights Reserved.</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Game Data Version</b> {{ gameDataVersion }}
-    </div>
-  </footer>
+  
 </div>
 <!-- ./wrapper -->
 

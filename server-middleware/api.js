@@ -24,7 +24,10 @@ app.get('/monsters/:monsterId', async (req, res) => {
     let droppedItem;
     try {
       droppedItem = await $content('items', 'item_' + currentDrop.item).fetch();
-      dropItems[droppedItem.rarity].push(droppedItem);
+      dropItems[droppedItem.rarity].push({
+        item: droppedItem, 
+        dropInfo: currentDrop
+      });
     } catch (e) {
       return error({ message: 'Dropped Item ' + currentDrop.item + ' not found' })
     }
@@ -62,10 +65,28 @@ app.get('/items/:itemId', async (req, res) => {
   }
 
   droppingMonsters.sort((a, b) => (a.level > b.level) ? 1 : -1);
-  
+
+  var results = $content('quests', { deep: true });
+
+  let quests = await results.fetch();
+
+  quests = quests.filter(function(obj) {
+    if (obj.hasOwnProperty('endNeededItems') && obj.endNeededItems)
+      if (obj.endNeededItems.filter((x) => x.item == item.id).length > 0) return true;
+
+    if (obj.hasOwnProperty('endRemoveItems') && obj.endRemoveItems)
+      if (obj.endRemoveItems.filter((x) => x.item == item.id).length > 0) return true;
+
+    if (obj.hasOwnProperty('endReceiveItems') && obj.endReceiveItems)
+      if (obj.endReceiveItems.filter((x) => x.item == item.id).length > 0) return true;
+
+    return false;
+   });
+   
   res.json({
     item,
-    droppingMonsters
+    droppingMonsters,
+    quests
   });
 });
 
