@@ -50,6 +50,20 @@
           </div>
         </template>
 
+        <div class="row">
+          <nuxt-link :to="`/npcs/${beginNpc.flyffdb_meta_id}`" class="col-xl-3 col-md-6 mb-1">
+            <div class="card border-left-primary shadow">
+                <div class="card-body">
+                  <div class="user-block">
+                    <img :src="`${beginNpc.image}?tr=w-100,h-100,cm-pad_resize`" alt="NPC Icon">
+                    <span class="username text-muted">{{ beginNpc.name.en }}</span>
+                    <span class="description">put something here?!</span>
+                  </div>
+                </div>
+            </div>
+          </nuxt-link>
+        </div>
+
         <h2>Reward</h2>
         <template v-if="quest.endReceiveExperience">
           <div class="row">
@@ -139,15 +153,33 @@ export default {
     };
   },
   async asyncData ({ $content, params, error }) {
-    let quest
+    let quest;
+    let beginNpc;
+    let endNpc;
     try {
-      quest = await $content('quests', params.slug).fetch()
+      quest = await $content('quests', params.slug).fetch();
       // OR const article = await $content(`articles/${params.slug}`).fetch()
     } catch (e) {
       return error({ message: 'Quest ' + params.slug + ' not found' })
     }
+    try {
+      beginNpc = await $content('npcs', 'npc_' + quest.beginNPC).fetch();
+    } catch (e) {
+      return error({ message: 'Quest ' + params.slug + ' not found' })
+    }
+    try {
+      endNpc = await $content('npcs', 'npc_' + quest.endNPC).fetch();
+
+      // OR const article = await $content(`articles/${params.slug}`).fetch()
+    } catch (e) {
+      return error({ message: 'Quest ' + params.slug + ' not found' })
+    }
+
+    
     return {
-      quest
+      quest,
+      beginNpc,
+      endNpc
     }
   },
   head () {

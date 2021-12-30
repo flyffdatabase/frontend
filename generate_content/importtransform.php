@@ -7,7 +7,7 @@ $downloadImages = false;
 
 function downloadAndCDNImage($remoteImage, $folderName, $fileName) {
     //fetch image from remote url (parameter)
-    if (false) {
+    if (true) {
         $retryCount = 0;
         $downloadSuccess = false;
         $remoteImageRaw = '';
@@ -135,7 +135,11 @@ $endpoints = [[
     'postProcessing' => null,
 ],[
     'url' => '/npc',
-    'postProcessing' => null,
+    'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages) {
+        if ($fetchImages) {
+            $currentItem['image'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/npc/' . $currentItem['image'], '/icon/npc', $currentItem['image']);
+        }
+    },
 ],[
     'url' => '/quest',
     'postProcessing' => null,
