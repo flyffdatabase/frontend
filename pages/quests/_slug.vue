@@ -33,7 +33,6 @@
         </div>
       </div>
       <div class="col-xl-9 col-md-8 mb-8">
-    
         <h2>Description</h2>
         <template v-if="!quest.raw_description.en || quest.raw_description.en == 'null'">
           <div class="card bg-info text-white shadow mb-4">

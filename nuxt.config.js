@@ -53,7 +53,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxt/content',
-    '@nuxt/http'
+    '@nuxt/http',
+    'nuxt-leaflet'
   ],
   
   content: {

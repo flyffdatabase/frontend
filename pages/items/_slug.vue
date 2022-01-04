@@ -31,7 +31,10 @@
                 </thead>
                 <tbody>
                   <template v-if="item.category == 'weapon'">
-                    <tr><td>Atk</td><td>{{ item.minAttack }} - {{ item.maxAttack}}</td></tr>
+                    <tr><td>Atk</td><td>{{ item.minAttack }} - {{ item.maxAttack }}</td></tr>
+                  </template>
+                  <template v-if="item.category == 'armor'">
+                    <tr><td>Def</td><td>{{ item.minDefense }} - {{ item.maxDefense }}</td></tr>
                   </template>
                   <tr><td>Buy Price: </td><td>{{ item.sellPrice | penya }}</td></tr>
                   <tr><td>Sell Price: </td><td>{{ item.sellPrice / 4 | penya }}</td></tr>

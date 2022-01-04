@@ -7,7 +7,7 @@ $downloadImages = false;
 
 function downloadAndCDNImage($remoteImage, $folderName, $fileName) {
     //fetch image from remote url (parameter)
-    if (true) {
+    if (false) {
         $retryCount = 0;
         $downloadSuccess = false;
         $remoteImageRaw = '';
@@ -120,7 +120,14 @@ $endpoints = [[
     },
 ],[
     'url' => '/world',
-    'postProcessing' => null,
+    'postProcessing' => function (&$currentWorld) use ($fetchImages) {
+        for($x = 0; $x < $currentWorld['width']; $x = $x +  $currentWorld['tileSize']) {
+            for($y = 0; $y < $currentWorld['height']; $y = $y + $currentWorld['tileSize']) {
+                $tileFileName = $currentWorld['tileName'] + ($x / $currentWorld['tileSize']) + '-' + ($y / $currentWorld['tileSize']) + '-0.png';
+                downloadAndCDNImage('https://flyff-api.sniegu.fr/image/world/' + $tileFileName, '/icon/world', $tileFileName);
+            }
+        }
+    },
 ],[
     'url' => '/class',
     'postProcessing' => null,
@@ -171,7 +178,7 @@ foreach($endpoints as $currentEndpoint) {
             $currentEndpoint['postProcessing']($currentItem);
         }
 
-        file_put_contents('./../content'. $currentEndpoint['url'] .'s' . $currentEndpoint['url'] . '_' . $currentItem['id'] . '.json', json_encode($currentItem));
+        file_put_contents('./../content'. $currentEndpoint['url'] .'s' . $currentEndpoint['url'] . '_' . $currentItem['id'] . '.json', json_encode($currentItem, JSON_PRETTY_PRINT));
     });
 }
 echo "Took: " . (microtime(true) - $timeStart)/60 . 'minutes';
