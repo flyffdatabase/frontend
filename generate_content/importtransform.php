@@ -7,7 +7,7 @@ $downloadImages = false;
 
 function downloadAndCDNImage($remoteImage, $folderName, $fileName) {
     //fetch image from remote url (parameter)
-    if (false) {
+    if (true) {
         $retryCount = 0;
         $downloadSuccess = false;
         $remoteImageRaw = '';
