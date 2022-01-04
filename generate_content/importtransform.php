@@ -123,8 +123,8 @@ $endpoints = [[
     'postProcessing' => function (&$currentWorld) use ($fetchImages) {
         for($x = 0; $x < $currentWorld['width']; $x = $x +  $currentWorld['tileSize']) {
             for($y = 0; $y < $currentWorld['height']; $y = $y + $currentWorld['tileSize']) {
-                $tileFileName = $currentWorld['tileName'] + ($x / $currentWorld['tileSize']) + '-' + ($y / $currentWorld['tileSize']) + '-0.png';
-                downloadAndCDNImage('https://flyff-api.sniegu.fr/image/world/' + $tileFileName, '/icon/world', $tileFileName);
+                $tileFileName = $currentWorld['tileName'] . ($x / $currentWorld['tileSize']) . '-' . ($y / $currentWorld['tileSize']) . '-0.png';
+                downloadAndCDNImage('https://flyff-api.sniegu.fr/image/world/' . $tileFileName, '/icon/world', $tileFileName);
             }
         }
     },
