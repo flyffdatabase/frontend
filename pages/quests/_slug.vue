@@ -51,17 +51,34 @@
         </template>
 
         <div class="row">
-          <nuxt-link :to="`/npcs/${beginNpc.flyffdb_meta_id}`" class="col-xl-3 col-md-6 mb-1">
-            <div class="card border-left-primary shadow">
-                <div class="card-body">
-                  <div class="user-block">
-                    <img :src="`${beginNpc.image}?tr=w-100,h-100,cm-pad_resize`" alt="NPC Icon">
-                    <span class="username text-muted">{{ beginNpc.name.en }}</span>
-                    <span class="description">put something here?!</span>
+          <template v-if="beginNpc.name">
+            <nuxt-link :to="`/npcs/${beginNpc.flyffdb_meta_id}`" class="col-xl-4 col-md-6 col-sm-12 mb-1">
+              <h6 style="color: white">Start NPC</h6>
+              <div class="card border-left-primary shadow">
+                  <div class="card-body">
+                    <div class="user-block">
+                      <img :src="`${beginNpc.image}?tr=w-100,h-100,cm-pad_resize`" alt="NPC Icon">
+                      <span class="username text-muted">{{ beginNpc.name.en }}</span>
+                      <span class="description">put something here?!</span>
+                    </div>
                   </div>
-                </div>
-            </div>
-          </nuxt-link>
+              </div>
+            </nuxt-link>
+          </template>
+          <template v-if="endNpc.name">
+            <nuxt-link :to="`/npcs/${endNpc.flyffdb_meta_id}`" class="col-xl-4 col-md-6 col-sm-12 mb-1">
+              <h6 style="color: white">End NPC</h6>
+              <div class="card border-left-primary shadow">
+                  <div class="card-body">
+                    <div class="user-block">
+                      <img :src="`${endNpc.image}?tr=w-100,h-100,cm-pad_resize`" alt="NPC Icon">
+                      <span class="username text-muted">{{ endNpc.name.en }}</span>
+                      <span class="description">put something here?!</span>
+                    </div>
+                  </div>
+              </div>
+            </nuxt-link>
+          </template>
         </div>
 
         <h2>Reward</h2>
@@ -158,23 +175,25 @@ export default {
     let endNpc;
     try {
       quest = await $content('quests', params.slug).fetch();
-      // OR const article = await $content(`articles/${params.slug}`).fetch()
-    } catch (e) {
-      return error({ message: 'Quest ' + params.slug + ' not found' })
-    }
-    try {
-      beginNpc = await $content('npcs', 'npc_' + quest.beginNPC).fetch();
-    } catch (e) {
-      return error({ message: 'Quest ' + params.slug + ' not found' })
-    }
-    try {
-      endNpc = await $content('npcs', 'npc_' + quest.endNPC).fetch();
-
-      // OR const article = await $content(`articles/${params.slug}`).fetch()
     } catch (e) {
       return error({ message: 'Quest ' + params.slug + ' not found' })
     }
 
+    if (quest.beginNPC) {
+      try {
+        beginNpc = await $content('npcs', 'npc_' + quest.beginNPC).fetch();
+      } catch (e) {
+        return error({ message: 'NPC ' + quest.beginNPC + ' not found' })
+      }
+    }
+
+    if (quest.endNPC) {
+      try {
+        endNpc = await $content('npcs', 'npc_' + quest.endNPC).fetch();
+      } catch (e) {
+        return error({ message: 'NPC ' + quest.endNPC + ' not found' })
+      }
+    }
     
     return {
       quest,

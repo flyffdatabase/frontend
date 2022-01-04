@@ -137,7 +137,7 @@
 export default {
   async asyncData ({ $http, params, error }) {
     const data = await $http.$get(`/api/items/${params.slug}`);
-    console.log(data);
+    
     return data;
   },
   head () {

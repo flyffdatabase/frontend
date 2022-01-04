@@ -3,7 +3,7 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
-  props: ["data", "options"],
+  props: ["data", "rangeLevel", "rangeMiddle", "options"],
   mounted() {
     let outData = [];
     for(let i = 0; i < this.data.length; i++) {

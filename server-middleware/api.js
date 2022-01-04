@@ -128,4 +128,22 @@ app.all('/itemsByCategory', async (req, res) => {
   res.json({ itemsByCategory: itemsByCategory });
 })
 
+app.all('/test', async (req, res) => {
+  let query = $content('items', { deep: true })
+    .sortBy('id', 'asc')
+  const allItems = await query.fetch();
+  let filteredItems = [];
+
+  for (const currentItem of allItems) {
+    if (!currentItem.durationRealTime && currentItem.hasOwnProperty('duration')) {
+      filteredItems.push(currentItem.id);
+      filteredItems.push(currentItem.duration);
+      filteredItems.push(currentItem.name.en);
+    }
+  }
+  
+
+  res.json({ itemsByCategory: filteredItems });
+})
+
 module.exports = app

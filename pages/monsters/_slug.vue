@@ -44,7 +44,7 @@
                   <h6 class="card-title">Experience by Level</h6>
                 </div>
                 <div class="card-body pt-0">
-                  <ExpChart :data="monster.experienceTable" :height="200" />
+                  <ExpChart :data="monster.experienceTable" :height="200" :rangeLevel="60" :rangeMiddle="monster.level" />
                 </div>
               </div>
             </div>
