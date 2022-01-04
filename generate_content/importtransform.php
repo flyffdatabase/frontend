@@ -91,6 +91,7 @@ $monsterByDroppingItem = [];
 $endpoints = [[
     'url' => '/monster',
     'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages) {
+        return;
         if ($fetchImages) {
             //file_put_contents('./images/item/' . $currentItem['icon'], file_get_contents('https://flyff-api.sniegu.fr/image/item/' . $currentItem['icon']));
             $currentItem['icon'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/monster/' . $currentItem['icon'], '/icon/monster', $currentItem['icon']);
@@ -107,6 +108,7 @@ $endpoints = [[
 ],[
     'url' => '/item',
     'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages) {
+        return;
         $currentItem['flyffdb_dropped_by'] = [];
 
         if ($fetchImages) {
@@ -143,6 +145,7 @@ $endpoints = [[
 ],[
     'url' => '/npc',
     'postProcessing' => function (&$currentItem) use (&$monsterByDroppingItem, $fetchImages) {
+        return;
         if ($fetchImages) {
             $currentItem['image'] = downloadAndCDNImage('https://flyff-api.sniegu.fr/image/npc/' . $currentItem['image'], '/icon/npc', $currentItem['image']);
         }
@@ -178,7 +181,7 @@ foreach($endpoints as $currentEndpoint) {
             $currentEndpoint['postProcessing']($currentItem);
         }
 
-        file_put_contents('./../content'. $currentEndpoint['url'] .'s' . $currentEndpoint['url'] . '_' . $currentItem['id'] . '.json', json_encode($currentItem, JSON_PRETTY_PRINT));
+        //file_put_contents('./../content'. $currentEndpoint['url'] .'s' . $currentEndpoint['url'] . '_' . $currentItem['id'] . '.json', json_encode($currentItem, JSON_PRETTY_PRINT));
     });
 }
 echo "Took: " . (microtime(true) - $timeStart)/60 . 'minutes';
