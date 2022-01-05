@@ -36,34 +36,32 @@
         </div>
       </div>
       <div class="col-xl-9 col-md-8 mb-8">
-        <div class="row">
-          <div id="map-wrap" class="col-md-12">
+          <div class="row">
+            <div id="map-wrap" class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h6 class="card-title">Flaris</h6>
+                <h6 class="card-title">Location</h6>
               </div>
-              <div class="card-body" style="height: 800px">
+              <div class="card-body" style="height: 300px">
                 <client-only>
                   <template v-for="currentWorld in spawnWorlds">
-                    <l-map ref="map" :crs="crs" :options="{zoomControl: true, minZoom: -10, zoom: -1}" :key="currentWorld.worldId">
+                    <l-map ref="map" :crs="crs" :options="{zoomControl: true, minZoom: -10, zoom: -1, attributionControl: false}" :key="currentWorld.worldId">
                       
                       <l-image-overlay v-for="currentTile in currentWorld.tiles" 
                         :url="currentTile.url" 
                         :bounds="currentTile.bounds" 
                         :key="currentTile.id"/>
 
-                      <l-marker v-for="star in stars" :lat-lng="star" :key="star.name">
+                      <l-rectangle v-for="star in stars"  :bounds="star.bounds" :key="star.name">
                         <l-popup :content="star.name"/>
-                      </l-marker>
+                      </l-rectangle>
                     </l-map>
                   </template>
                 </client-only>
               </div>
             </div>
           </div>
-        </div>
-        <template v-if="monster.experienceTable.length > 0">
-          <div class="row">
+          <template v-if="monster.experienceTable.length > 0">
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">
@@ -74,8 +72,9 @@
                 </div>
               </div>
             </div>
-          </div>
-        </template>
+          </template>
+        </div>
+
         <h2>Drop Information</h2>
         <div class="row">
           <div class="col-xl-6 col-lg-12 col-md-12">
@@ -200,28 +199,28 @@ export default {
   mounted( ) {
     let leaflet = require('leaflet');
     this.crs = leaflet.CRS.Simple;
-    let initialized = false;
-    /*
+      let self = this;
+    
     let tryAgain = () => {};
     tryAgain = ()=>{
-      let self = this;
-      if (this.$refs.map.mapObject) {
-        this.$refs.map.mapObject.setView([70, 120], 1);
-      } else {
-        this.$nextTick(tryAgain);
-      }
+      console.log(this.$refs);
+      this.$refs.map.forEach(currentMap => {
+        currentMap.mapObject.setView(this.location, -1);
+      });
     };
-    this.$nextTick(tryAgain);*/
+    this.$nextTick(tryAgain);
   },
   async asyncData ({ $http, $content, params, error }) {
     let monsterData = await $http.$get(`/api/monsters/${params.slug}`);
 
     let spawnWorlds = {};
     let mapScale = 1;
-
+    monsterData.stars = [];
+    let currentWorld = undefined;
     for(const currentLocation of monsterData.monster.spawns) {
       if (!spawnWorlds.hasOwnProperty(currentLocation.world)) {
-        let currentWorld = await $content('worlds', 'world_' + currentLocation.world).fetch();
+        currentWorld = await $content('worlds', 'world_' + currentLocation.world).fetch();
+
         spawnWorlds[currentWorld.id] = {
           worldId: currentWorld.id,
           world: currentWorld,
@@ -242,18 +241,23 @@ export default {
           }
         }
       }
-      
+
+      monsterData.stars.push({ 
+        name: monsterData.monster.name.en, 
+        bounds: [
+          [(currentWorld.height - currentLocation.top) * -1, currentLocation.left], 
+          [(currentWorld.height - currentLocation.bottom) * -1, currentLocation.right]]
+      });
+    }
+
+    if (monsterData.monster.location) {
+      monsterData.location = [(currentWorld.height - monsterData.monster.location.z) * -1, monsterData.monster.location.x];
     }
 
     monsterData.spawnWorlds = Object.values(spawnWorlds);
 
     monsterData.crs = undefined;
-    monsterData.stars = [
-        { name: 'Sol', lng: 175.2, lat: 145.0 },
-        { name: 'Mizar', lng: 41.6, lat: 130.1 },
-        { name: 'Krueger-Z', lng: 13.4, lat: 56.5 },
-        { name: 'Deneb', lng: 218.7, lat: 8.3 }
-      ];
+
     if (process.client) {
       console.log(monsterData);
     }
