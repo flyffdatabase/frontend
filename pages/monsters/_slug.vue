@@ -42,10 +42,9 @@
               <div class="card-header">
                 <h6 class="card-title">Location</h6>
               </div>
-              <div class="card-body" style="height: 300px">
                 <client-only>
                   <template v-for="currentWorld in spawnWorlds">
-                    <l-map ref="map" :crs="crs" :options="{zoomControl: true, minZoom: -10, zoom: -1, attributionControl: false}" :key="currentWorld.worldId">
+                    <l-map class="card-body" style="height: 300px; overflow: hidden" ref="map" :crs="crs" :options="{zoomControl: true, minZoom: -10, zoom: -1, attributionControl: false}" :key="currentWorld.worldId">
                       
                       <l-image-overlay v-for="currentTile in currentWorld.tiles" 
                         :url="currentTile.url" 
@@ -58,7 +57,6 @@
                     </l-map>
                   </template>
                 </client-only>
-              </div>
             </div>
           </div>
           <template v-if="monster.experienceTable.length > 0">
