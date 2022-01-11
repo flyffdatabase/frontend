@@ -42,7 +42,7 @@ export default {
       this.searchTermLength = this.searchTerm.length;
       this.searchOpen = (this.searchTermLength > 3);
       if (this.searchOpen) {
-        let results = await fetch(`http://mvs-1.flyffdb.info:9501/` + this.searchTerm).then(response => response.json());
+        let results = await fetch(`https://search.flyffdb.info/` + this.searchTerm).then(response => response.json());
         this.results = results.hits.hits;
         console.log(results);
       }
