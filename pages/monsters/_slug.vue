@@ -13,19 +13,17 @@
       </div><!-- /.col -->
     </div>
     <div class="row">
-      <div class="col-xl-3 col-md-4 mb-1">
-        <div class="card shadow ">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="card-title">Monster Details</h6>
-            </div>
-            <div class="card-body p-4" :style="`background-image: url('${monster.icon}');box-sizing: content-box; background-repeat: no-repeat;background-position: center center;background-size: auto;image-rendering: pixelated;min-height: 10em;`">
+      <div class="col-xl-3 col-md-4">
+        <div class="sticky-top mb-3">
+          <div class="card shadow card-outline card-info">
+            <div class="card-header p-4" :style="`background-image: url('${monster.icon}');box-sizing: content-box; background-repeat: no-repeat;background-position: center center;background-size: auto;image-rendering: pixelated;min-height: 10em;`">
                 
             </div>
-            <div class="card-body">
-              <table class="table table-striped borderless">
-                <thead>
-                  <tr><th colspan="2">Data</th></tr>
-                </thead>
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="card-title">{{ monster.name.en }}</h6>
+            </div>
+            <div class="card-body pt-0 pl-0 pr-0">
+              <table class="table table-striped borderless text-white table-borderless">
                 <tbody>
                   <tr><td>Level: </td><td>{{ monster.level }}</td></tr>
                   <tr><td>HP: </td><td>{{ monster.hp | thousands }}</td></tr>
@@ -33,12 +31,13 @@
                 </tbody> 
               </table>
             </div>
+          </div>
         </div>
       </div>
       <div class="col-xl-9 col-md-8 mb-8">
           <div class="row">
             <div id="map-wrap" class="col-md-6">
-            <div class="card">
+            <div class="card card-outline card-info">
               <div class="card-header">
                 <h6 class="card-title">Location</h6>
               </div>
@@ -61,7 +60,7 @@
           </div>
           <template v-if="monster.experienceTable.length > 0">
             <div class="col-md-6">
-              <div class="card">
+              <div class="card card-outline card-info">
                 <div class="card-header">
                   <h6 class="card-title">Experience by Level</h6>
                 </div>
@@ -87,105 +86,125 @@
           </div>
         </div>
         <div class="row">
-          <template v-if="dropItems.unique.length">
-            <div class="col-xl-6 col-lg-12 col-md-12 mb-1">
-              <div class="card shadow">
-                <div class="card-header py-3">
-                  <h6 class="card-title">Unique item drops</h6>
-                </div>
-                <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr v-for="currentDropItem in dropItems.unique" :key="currentDropItem.item.id">
-                        <td><ItemDisplay :for="currentDropItem.item"/></td>
-                        <td style="vertical-align: middle; text-align: center; white-space: nowrap">{{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+          <div class="col-md-12">
+            <div class="card card-outline card-info">
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                  <li class="pt-2 px-3"><h6 class="card-title">Drops</h6></li>
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">By Rarity</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Table</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-5 col-sm-3">
+                    <div class="nav flex-column nav-tabs sticky-top" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                      <a class="nav-link" id="dropitems-unique-tab" data-toggle="pill" href="#dropitems-unique" role="tab" aria-controls="dropitems-unique" aria-selected="true">Unique</a>
+                      <a class="nav-link" id="dropitems-veryrare-tab" data-toggle="pill" href="#dropitems-veryrare" role="tab" aria-controls="dropitems-veryrare" aria-selected="false">Very Rare</a>
+                      <a class="nav-link" id="dropitems-rare-tab" data-toggle="pill" href="#dropitems-rare" role="tab" aria-controls="dropitems-rare" aria-selected="false">Rare</a>
+                      <a class="nav-link" id="dropitems-uncommon-tab" data-toggle="pill" href="#dropitems-uncommon" role="tab" aria-controls="dropitems-uncommon" aria-selected="false">Uncommon</a>
+                      <a class="nav-link" id="dropitems-common-tab" data-toggle="pill" href="#dropitems-common" role="tab" aria-controls="dropitems-common" aria-selected="false">Common</a>
+                    </div>
+                  </div>
+                  <div class="col-7 col-sm-9">
+                    <div class="tab-content" id="vert-tabs-tabContent">
+                      <template v-if="dropItems.unique.length">
+                        <div class="tab-pane fade" id="dropitems-unique" role="tabpanel" aria-labelledby="dropitems-unique-tab">
+                          <div class="row">
+                            <template v-for="currentDropItem in dropItems.unique">
+                              <div class="col-md-4 mb-3" :key="currentDropItem.item.id">
+                                <div class="card h-100">
+                                  <div class="card-body pb-0">
+                                    <ItemDisplay :for="currentDropItem.item"/></td>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                    {{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}
+                                  </div>
+                                </div>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </template><template v-if="dropItems.veryrare.length">
+                        <div class="tab-pane fade" id="dropitems-veryrare" role="tabpanel" aria-labelledby="dropitems-veryrare-tab">
+                          <div class="row">
+                            <template v-for="currentDropItem in dropItems.veryrare">
+                              <div class="col-md-4 mb-3" :key="currentDropItem.item.id">
+                                <div class="card h-100">
+                                  <div class="card-body pb-0">
+                                    <ItemDisplay :for="currentDropItem.item"/></td>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                    {{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}
+                                  </div>
+                                </div>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </template><template v-if="dropItems.rare.length">
+                        <div class="tab-pane fade" id="dropitems-rare" role="tabpanel" aria-labelledby="dropitems-rare-tab">
+                          <div class="row">
+                            <template v-for="currentDropItem in dropItems.rare">
+                              <div class="col-md-4 mb-3" :key="currentDropItem.item.id">
+                                <div class="card h-100">
+                                  <div class="card-body pb-0">
+                                    <ItemDisplay :for="currentDropItem.item"/></td>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                    {{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}
+                                  </div>
+                                </div>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </template><template v-if="dropItems.uncommon.length">
+                        <div class="tab-pane fade" id="dropitems-uncommon" role="tabpanel" aria-labelledby="dropitems-uncommon-tab">
+                          <div class="row">
+                            <template v-for="currentDropItem in dropItems.uncommon">
+                              <div class="col-md-4 mb-3" :key="currentDropItem.item.id">
+                                <div class="card h-100">
+                                  <div class="card-body pb-0">
+                                    <ItemDisplay :for="currentDropItem.item"/></td>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                    {{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}
+                                  </div>
+                                </div>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </template>
+                      <template v-if="dropItems.common.length">
+                        <div class="tab-pane fade" id="dropitems-common" role="tabpanel" aria-labelledby="dropitems-common-tab">
+                          <div class="row">
+                            <template v-for="currentDropItem in dropItems.common">
+                              <div class="col-md-4 mb-3" :key="currentDropItem.item.id">
+                                <div class="card h-100">
+                                  <div class="card-body pb-0">
+                                    <ItemDisplay :for="currentDropItem.item"/></td>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                    {{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}
+                                  </div>
+                                </div>
+                              </div>
+                            </template>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </template>
-          
-          <template v-if="dropItems.veryrare.length">
-            <div class="col-xl-6 col-lg-12 col-md-12 mb-1">
-              <div class="card shadow">
-                <div class="card-header py-3">
-                  <h6 class="card-title">Very Rare item drops</h6>
-                </div>
-                <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr v-for="currentDropItem in dropItems.veryrare" :key="currentDropItem.item.id">
-                        <td><ItemDisplay :for="currentDropItem.item"/></td>
-                        <td style="vertical-align: middle; text-align: center; white-space: nowrap">{{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </template>
-          
-          <template v-if="dropItems.rare.length">
-            <div class="col-xl-6 col-lg-12 col-md-12 mb-1">
-              <div class="card shadow">
-                <div class="card-header py-3">
-                  <h6 class="card-title">Rare item drops</h6>
-                </div>
-                <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr v-for="currentDropItem in dropItems.rare" :key="currentDropItem.item.id">
-                        <td><ItemDisplay :for="currentDropItem.item"/></td>
-                        <td style="vertical-align: middle; text-align: center; white-space: nowrap">{{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </template>
-          
-          <template v-if="dropItems.uncommon.length">
-            <div class="col-xl-6 col-lg-12 col-md-12 mb-1">
-              <div class="card shadow">
-                <div class="card-header py-3">
-                  <h6 class="card-title">Uncommon item drops</h6>
-                </div>
-                <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr v-for="currentDropItem in dropItems.uncommon" :key="currentDropItem.item.id">
-                        <td><ItemDisplay :for="currentDropItem.item"/></td>
-                        <td style="vertical-align: middle; text-align: center; white-space: nowrap">{{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </template>
-
-          <template v-if="dropItems.common.length">
-            <div class="col-xl-6 col-lg-12 col-md-12 mb-1">
-              <div class="card shadow">
-                <div class="card-header py-3">
-                  <h6 class="card-title">Common item drops</h6>
-                </div>
-                <div class="card-body p-0" style="max-height: 15em;height:15em; overflow-y: auto">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr v-for="currentDropItem in dropItems.common" :key="currentDropItem.item.id">
-                        <td><ItemDisplay :for="currentDropItem.item"/></td>
-                        <td style="vertical-align: middle; text-align: center; white-space: nowrap">{{ currentDropItem.dropInfo.probabilityRange | probabilityRange }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </template>
+          </div>
         </div>
       </div>
     </div>

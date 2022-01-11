@@ -2,10 +2,12 @@
   <div class="pt-3">
     <div v-for="category in itemsByCategory" :key="category.name">
       <div class="row">
-        <div class="col-xl-3 col-md-4 mb-1">
-          <div class="card shadow">
-            <div class="card-header">
-              <h2 class="card-title">{{ category.name | capitalize }}</h2>
+        <div class="col-xl-3 col-md-4">
+          <div class="sticky-top mb-3">
+            <div class="card shadow">
+              <div class="card-header">
+                <h2 class="card-title">{{ category.name | capitalize }}</h2>
+              </div>
             </div>
           </div>
         </div>
