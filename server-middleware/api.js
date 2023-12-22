@@ -45,7 +45,7 @@ app.get("/gameVersion", async (req, res) => {
     });
 });
 
-app.get("/items/:itemId", async (req, res) => {
+app.get("/items/dropFrom/:itemId", async (req, res) => {
     let itemId = req.params.itemId;
 
     let item;
@@ -55,7 +55,7 @@ app.get("/items/:itemId", async (req, res) => {
         return error({ message: "Item " + itemId + " not found" });
     }
 
-    /*let droppingMonsters = [];
+    let droppingMonsters = [];
     for (const currentMonsterId of item.flyffdb_dropped_by) {
       let monster;
       try {
@@ -66,7 +66,20 @@ app.get("/items/:itemId", async (req, res) => {
       }
     }
   
-    droppingMonsters.sort((a, b) => (a.level > b.level) ? 1 : -1);*/
+    droppingMonsters.sort((a, b) => (a.level > b.level) ? 1 : -1);
+
+    res.json(droppingMonsters);
+});
+
+app.get("/items/:itemId", async (req, res) => {
+    let itemId = req.params.itemId;
+
+    let item;
+    try {
+        item = await $content("items", itemId).fetch();
+    } catch (e) {
+        return error({ message: "Item " + itemId + " not found" });
+    }
 
     /*var results = $content('quests', { deep: true });
   

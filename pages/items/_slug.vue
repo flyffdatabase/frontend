@@ -210,9 +210,7 @@ export default {
         }
     },
     async fetch() {
-        const { droppingMonsters } = await this.$http.$get(`/api/items/${this.$route.params.slug}`)
-        // `todos` has to be declared in data()
-        this.droppingMonsters = droppingMonsters
+        this.droppingMonsters = await this.$http.$get(`/api/items/dropFrom/${this.$route.params.slug}`);
     }
 }
 </script>
